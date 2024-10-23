@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import {useThemedStyles} from '../../hooks';
 import {createStyles} from './styles.ts';
 import {Text} from '../index.ts';
+import theme from "../../theme/base";
 
 interface BooleanButtonsProps {
   onChange: (state: 'none' | any) => void;
@@ -35,7 +36,14 @@ const BooleanButtons: FC<BooleanButtonsProps> = ({
           onPress={onChange}
           containerStyle={styles.buttonGroupContainer}
           selectedButtonStyle={styles.selectedButton}
-          selectedTextStyle={styles.selectedText}
+          //selectedTextStyle={{color: '#fff', borderWidth: 1, fontSize: 20}}
+          buttonStyle={{
+            borderColor: theme.colors.brandPrimary,
+            borderWidth: 1,
+            borderRadius: 50,
+            marginHorizontal: 2,
+          }}
+          innerBorderStyle={{width: 0}}
           textStyle={styles.text}
           disabledStyle={styles.disabled}
           disabled={disabled}

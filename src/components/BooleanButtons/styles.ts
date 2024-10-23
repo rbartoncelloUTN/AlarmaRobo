@@ -17,18 +17,17 @@ export const createStyles = () => ({
     width: '100%',
   },
   buttonGroupContainer: {
-    borderWidth: 1,
-    borderRadius: 10,
+    borderWidth: 0,
     width: '100%',
     minWidth: 250,
-    height: 50,
-    borderColor: theme.colors.black,
+    height: 70,
+    backgroundColor: undefined,
   },
   selectedButton: {
     backgroundColor: theme.colors.brandPrimary,
   },
   selectedText: {
-    color: theme.colors.white,
+    color: '#FFF',
   },
   text: {
     color: 'black',

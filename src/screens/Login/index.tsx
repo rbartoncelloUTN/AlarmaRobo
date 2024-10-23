@@ -2,18 +2,19 @@ import type {FormikErrors, FormikHelpers} from 'formik';
 import {Field, Formik} from 'formik';
 import {FC, useState} from 'react';
 import {useRef} from 'react';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {createStyles} from './styles';
 import type {FormValues, LoginProps} from './types';
 import validationSchema from './validationSchema';
 import {Button, Container, LoadingOverlay, Text, Title} from '../../components';
 import {useThemedStyles} from '../../hooks';
 import {ErrorFeedback, PasswordField, TextField} from '../../forms/fields';
-import loginLogo from '../../assets/images/logo.png';
 import {useSessionStore} from '../../state/session/slice.ts';
 import {useLogin} from '../../state/session/actions.tsx';
 import {users} from '../../constans/users.ts';
 import BooleanButtons from '../../components/BooleanButtons';
+import {SquareUnlockIcon} from '../../assets/icons';
+import colors from '../../theme/base/colors.ts';
 
 const initialValues: FormValues = {username: '', password: ''};
 
@@ -49,11 +50,8 @@ const Login: FC<LoginProps> = () => {
   const passwordRef = useRef();
 
   return (
-    <Container accessibilityLabel="view-login-container">
+    <Container styles={{backgroundColor: colors.brandSecondary}}>
       {status.isFetching && <LoadingOverlay />}
-      <View style={styles.image}>
-        <Image source={loginLogo} style={styles.logo} />
-      </View>
       <Title style={styles.title}>Inicio de sessión</Title>
       <Formik
         onSubmit={handleSubmit}
@@ -68,8 +66,8 @@ const Login: FC<LoginProps> = () => {
                 component={TextField}
                 name="username"
                 config={{
-                  placeholder: 'Ingrese su email',
-                  label: 'Email',
+                  placeholder: 'Ingrese su correo electrónico',
+                  label: 'Correo electrónico',
                   returnKeyType: 'next',
                   keyboardType: 'email-address',
                 }}
@@ -90,26 +88,33 @@ const Login: FC<LoginProps> = () => {
             {!dirty && state?.isSubmitted && status.errorMessage && (
               <ErrorFeedback config={{label: status.errorMessage}} />
             )}
+
             <View style={styles.buttonContainer}>
-              <Button
-                onPress={submitForm}
-                title="Ingresar"
-                accessibilityLabel="btn-login-submit"
-                buttonStyle={styles.button}
+              <BooleanButtons
+                options={users.map(user => (
+                  <Text key={user.id} style={{fontWeight: 'bold'}}>
+                    {user.rol}
+                  </Text>
+                ))}
+                label="Usuarios"
+                onChange={(value: number) =>
+                  handleAutoComplete(setFieldValue, value)
+                }
+                value={userId}
               />
+              <TouchableOpacity
+                onPress={submitForm}
+                style={{
+                  borderWidth: 1,
+                  padding: 10,
+                  width: 220,
+                  borderRadius: 20,
+                  backgroundColor: colors.brandPrimary,
+                  alignSelf: 'center',
+                }}>
+                <SquareUnlockIcon width={200} height={200} color={'#fff'} />
+              </TouchableOpacity>
             </View>
-            <BooleanButtons
-              options={users.map(user => (
-                <Text key={user.id} style={{fontWeight: 'bold'}}>
-                  {user.rol}
-                </Text>
-              ))}
-              label="Usuarios"
-              onChange={(value: number) =>
-                handleAutoComplete(setFieldValue, value)
-              }
-              value={userId}
-            />
           </View>
         )}
       </Formik>

@@ -1,17 +1,24 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {StackNavigation} from './navigation/StackNavigation.tsx';
-import {useEffect} from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import {useState} from 'react';
+import AnimatedSplashScreen from './components/AnimatedSplashScreen/AnimatedSplashScreen.tsx';
+import {runOnJS} from 'react-native-reanimated';
 
 const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+  const [isSplashVisible, setSplashVisible] = useState(true);
+
+  const handleFinishSplash = () => {
+    runOnJS(() => setSplashVisible(false))(); // Usar runOnJS para actualizar el estado en React
+  };
 
   return (
     <NavigationContainer>
-      <StackNavigation />
+      {isSplashVisible ? (
+        <AnimatedSplashScreen onFinish={handleFinishSplash} />
+      ) : (
+        <StackNavigation />
+      )}
     </NavigationContainer>
   );
 };

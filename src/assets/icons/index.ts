@@ -14,4 +14,5 @@ export {default as MoneySendIcon} from './MoneySend.tsx';
 export {default as MoneySendCircleIcon} from './MoneySendCircle.tsx';
 export {default as NotificationIcon} from './Notification.tsx';
 export {default as SquareLockIcon} from './SquareLock.tsx';
+export {default as SquareUnlockIcon} from './SquareUnlock.tsx';
 export {default as UserAccountIcon} from './UserAccount.tsx';
